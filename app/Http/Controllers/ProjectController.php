@@ -7,6 +7,7 @@ use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Http\Resources\ProjectResource;
 use App\Models\Project;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ProjectController extends Controller
@@ -19,6 +20,11 @@ class ProjectController extends Controller
         $user = Auth::user();
         $project = $user->projects()->create($validated);
 
+        return new ProjectResource($project);
+    }
+
+    public function show(Request $request, Project $project)
+    {
         return new ProjectResource($project);
     }
 
