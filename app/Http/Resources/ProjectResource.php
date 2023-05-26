@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Http\Resources\TaskResource;
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -19,6 +20,7 @@ class ProjectResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'tasks' => TaskResource::collection($this->whenLoaded('tasks')),
+            'members' => UserResource::collection($this->whenLoaded('members')),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
