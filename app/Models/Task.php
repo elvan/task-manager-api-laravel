@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class Task extends Model
@@ -51,6 +52,15 @@ class Task extends Model
     public function scopeDueBetween(Builder $query, string $fromDate, string $toDate)
     {
         $query->where('due_at', '>=', $fromDate)->where('due_at', '<=', $toDate);
+    }
+
+    public function scopeDue(Builder $query, string $filter)
+    {
+        if ($filter === 'today') {
+            $query->where('due_at', '=', Carbon::today()->toDateString());
+        } elseif ($filter === 'past') {
+            $query->where('due_at', '<', Carbon::today()->toDateString());
+        }
     }
 
     protected static function booted(): void
